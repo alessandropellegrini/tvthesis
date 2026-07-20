@@ -1,0 +1,195 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Example Master's thesis using tvthesis class
+%%
+%% Compile with: pdflatex example-master.tex (twice)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[master,english,lof,lot]{tvthesis}
+
+\courseorganizer{Faculty of Engineering}
+\course{Master's Degree in Computer Science}
+
+\title{A Novel Approach to Distributed Computing}
+\subtitle{Algorithms, Protocols, and Performance Analysis}
+\author{Jane Doe}
+\IDnumber{0123456}
+
+\advisor{Prof.~Alice Smith}
+\coadvisor{Prof.~Bob Johnson}
+
+\AcademicYear{2025/2026}
+
+\usepackage{lipsum}
+
+\begin{document}
+
+\maketitle
+
+\frontmatter
+
+\dedication{To my family}
+
+\tableofcontents
+
+\begin{abstract}
+This thesis presents a novel approach to distributed computing.
+We propose new algorithms and protocols that improve performance
+and scalability compared to state-of-the-art solutions. Extensive experimental
+evaluation demonstrates the effectiveness of our approach across a variety of
+benchmark scenarios. The results show significant improvements in throughput and
+latency, while maintaining strong consistency guarantees.
+\end{abstract}
+
+\begin{acknowledgments}
+I would like to express my sincere gratitude to my advisor for the invaluable
+guidance and continuous support throughout this work. I am also grateful to my
+co-advisor for the insightful comments and encouragement.
+
+A special thanks to my family and friends, whose unwavering support made this
+journey possible.
+\end{acknowledgments}
+
+
+
+\mainmatter
+
+\chapter{Introduction}
+\label{ch:introduction}
+
+Distributed computing has become an essential paradigm in modern software
+engineering. As systems grow in complexity and scale, the need for efficient
+distributed algorithms becomes increasingly critical~\cite{tanenbaum2007}.
+
+The main contributions of this thesis are:
+\begin{itemize}
+    \item A new algorithm for consensus.
+    \item A protocol for efficient data replication across distributed nodes.
+    \item An extensive experimental evaluation of the proposed solutions.
+\end{itemize}
+
+The remainder of this thesis is organized as follows. Chapter~\ref{ch:background}
+provides the necessary background. Chapter~\ref{ch:proposal} presents our
+proposed approach. Chapter~\ref{ch:conclusions} draws conclusions and outlines
+future work.
+
+
+
+\chapter{Background}
+\label{ch:background}
+
+In this chapter, we review the fundamental concepts and related work that
+form the basis of our research.
+
+\section{Distributed Systems}
+
+A distributed system is a collection of independent computers that appears to
+its users as a single coherent system~\cite{tanenbaum2007}. The key challenges
+in designing such systems include:
+\begin{enumerate}
+    \item Achieving consensus among distributed nodes.
+    \item Ensuring fault tolerance and availability.
+    \item Maintaining consistency across replicated data.
+\end{enumerate}
+
+\section{Consensus Algorithms}
+
+Consensus algorithms are fundamental building blocks for distributed
+systems. The most well-known algorithms include Paxos~\cite{lamport1998}
+and Raft~\cite{ongaro2014}.
+
+\lipsum[1-2]
+
+
+
+\chapter{Proposed Approach}
+\label{ch:proposal}
+
+In this chapter, we present our proposed approach to distributed computing
+in heterogeneous environments.
+
+\section{System Model}
+
+We consider a distributed system composed of $n$ nodes interconnected by
+a network. Each node $i$ maintains a local state $s_i$ and communicates
+with other nodes through message passing. The system satisfies the
+following properties:
+%
+\begin{equation}
+\label{eq:consistency}
+\forall i, j \in \{1, \ldots, n\}: s_i = s_j \text{ at quiescence}
+\end{equation}
+
+The high-level architecture of our system is shown in
+Figure~\ref{fig:architecture}.
+
+\begin{figure}[t]
+    \centering
+    \caption{High-level architecture of the proposed distributed system.}
+    \label{fig:architecture}
+    \includegraphics[width=0.7\textwidth]{example-image}
+\end{figure}
+
+Table~\ref{tab:comparison} summarises the key properties of existing
+consensus algorithms compared to our approach.
+
+\begin{table}[t]
+    \centering
+    \begin{tabular}{lccc}
+        \toprule
+        \textbf{Algorithm} & \textbf{Fault Tolerance} & \textbf{Latency} & \textbf{Throughput} \\
+        \midrule
+        Paxos      & $f < n/2$ & High   & Medium \\
+        Raft       & $f < n/2$ & Medium & Medium \\
+        Our Method & $f < n/2$ & Low    & High   \\
+        \bottomrule
+    \end{tabular}
+    \caption{Comparison of consensus algorithms.}
+    \label{tab:comparison}
+\end{table}
+
+\section{Algorithm Design}
+
+Our algorithm proceeds in rounds. In each round $r$, every node $i$:
+\begin{enumerate}
+    \item Broadcasts its current state $s_i^{(r)}$ to all other nodes.
+    \item Collects the states from a majority of nodes.
+    \item Updates its state according to the deterministic merge function.
+\end{enumerate}
+
+\lipsum[3]
+
+
+
+\chapter{Conclusions}
+\label{ch:conclusions}
+
+In this thesis, we have presented a novel approach to distributed computing.
+Our experimental results demonstrate significant improvements over existing
+solutions, both in terms of throughput and latency.
+
+Future work will focus on extending our approach to support geo-distributed
+deployments and investigating the application of machine learning techniques
+for adaptive protocol selection.
+
+
+
+\begin{thebibliography}{9}
+
+\bibitem{tanenbaum2007}
+A.~S.~Tanenbaum and M.~van Steen.
+\newblock {\em Distributed Systems: Principles and Paradigms}.
+\newblock Pearson Prentice Hall, 2nd edition, 2007.
+
+\bibitem{lamport1998}
+L.~Lamport.
+\newblock The part-time parliament.
+\newblock {\em ACM Transactions on Computer Systems}, 16(2):133--169, 1998.
+
+\bibitem{ongaro2014}
+D.~Ongaro and J.~Ousterhout.
+\newblock In search of an understandable consensus algorithm.
+\newblock In {\em Proceedings of the USENIX Annual Technical Conference},
+pages 305--320, 2014.
+
+\end{thebibliography}
+
+\end{document}

@@ -1,0 +1,41 @@
+# Generated class file
+*.cls
+
+# Docstrip generated
+*.hd
+
+# macOS
+.DS_Store
+
+# LaTeX auxiliary files
+*.aux
+*.log
+*.out
+*.toc
+*.brf
+*.lof
+*.lot
+
+# Index and glossary files
+*.idx
+*.ind
+*.ilg
+*.glo
+*.gls
+
+# Bibliography files
+*.bbl
+*.blg
+
+# Compiled documents
+*.pdf
+
+# CTAN archive
+*.zip
+
+# SyncTeX
+*.synctex.gz
+
+# latexmk
+*.fls
+*.fdb_latexmk

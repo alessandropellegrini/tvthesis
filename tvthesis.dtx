@@ -1,0 +1,1147 @@
+% \iffalse meta-comment
+%
+% tvthesis.dtx -- Documented source for the tvthesis LaTeX class
+%
+% Copyright (C) 2026 by Alessandro Pellegrini
+%
+% This file may be distributed and/or modified under the
+% conditions of the LaTeX Project Public License, either
+% version 1.3c of this license or (at your option) any later
+% version. The latest version of this license is in:
+%
+%    http://www.latex-project.org/lppl.txt
+%
+% and version 1.3c or later is part of all distributions of
+% LaTeX version 2008-05-04 or later.
+%
+% \fi
+%
+% \iffalse
+%<*driver>
+\documentclass{ltxdoc}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{libertine}
+\usepackage[defaultsans]{cantarell}
+\usepackage{hypdoc}
+\usepackage{xcolor}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\definecolor{verdetv}{RGB}{0,125,52}
+\EnableCrossrefs
+\CodelineIndex
+\RecordChanges
+\begin{document}
+  \DocInput{tvthesis.dtx}
+\end{document}
+%</driver>
+% \fi
+%
+% \changes{v1.0}{2026/07/20}{Initial release.}
+%
+% \GetFileInfo{tvthesis.cls}
+%
+% \title{The \textsf{tvthesis} class\thanks{This document
+%   corresponds to \textsf{tvthesis}~v1.0, dated~2026/07/20.}}
+% \author{Alessandro Pellegrini\\ \texttt{a.pellegrini@ing.uniroma2.it}}
+% \date{July 20, 2026}
+%
+% \maketitle
+%
+% \begin{abstract}
+% \noindent The \textsf{tvthesis} class provides a complete \LaTeX{}
+% document class for typesetting Master's and Ph.D.\ theses at the
+% Universit\`a degli Studi di Roma ``Tor Vergata''.  It features the
+% official university seal (rendered in Ti\textit{k}Z), support for
+% bilingual title pages (Italian and English), and customisable
+% layouts for both thesis types.  The Ph.D.\ layout uses a custom
+% book format ($17 \times 24$\,cm), while the Master's layout
+% defaults to A4 paper.
+% \end{abstract}
+%
+% \tableofcontents
+%
+% \section{Introduction}
+%
+% The \textsf{tvthesis} class is designed for students writing their
+% thesis at the Universit\`a degli Studi di Roma ``Tor Vergata''.
+%
+% Two thesis types are supported:
+% \begin{description}[leftmargin=2cm,style=nextline]
+%   \item[\texttt{master}] Master's thesis (Laurea Magistrale).
+%     Uses A4 paper with generous margins.
+%   \item[\texttt{phd}] Ph.D.\ thesis (default).
+%     Uses a custom book format ($17 \times 24$\,cm).
+% \end{description}
+%
+% \section{Usage}
+%
+% \subsection{Loading the class}
+%
+% Load the class with:
+% \begin{quote}
+%   |\documentclass[|\meta{options}|]{tvthesis}|
+% \end{quote}
+%
+% \subsection{Class options}\label{sec:options}
+%
+% \begin{description}[leftmargin=3.5cm,style=nextline]
+%   \item[\texttt{master}]
+%     Selects the Master's thesis layout (A4 paper).
+%   \item[\texttt{phd}]
+%     Selects the Ph.D.\ thesis layout (default).
+%   \item[\texttt{english}]
+%     Sets all labels to English.
+%   \item[\texttt{italian}]
+%     Sets all labels to Italian.
+%   \item[\texttt{lof}]
+%     Automatically appends a List of Figures after the Table of Contents.
+%   \item[\texttt{lot}]
+%     Automatically appends a List of Tables after the Table of Contents.
+%   \item[\texttt{binding=}\meta{length}]
+%     Adds extra binding offset (e.g.\ |binding=1cm|).
+%   \item[\texttt{a4paper}]
+%     (Ph.D.\ only) Embeds the book-format layout in A4 paper.
+%   \item[\texttt{letterpaper}]
+%     (Ph.D.\ only) Embeds the book-format layout in letter paper.
+%   \item[\texttt{showcrop}]
+%     Shows crop marks (requires |a4paper| or |letterpaper|).
+%   \item[\texttt{showmargins}]
+%     Draws margin frames for debugging.
+%   \item[\texttt{oneside}]
+%     One-sided printing.
+%   \item[\texttt{twoside}]
+%     Two-sided printing (default for Ph.D.).
+%   \item[\texttt{draft}]
+%     Passed to the underlying \textsf{book} class.
+%   \item[\texttt{fem}]
+%     Selects the feminine form for the candidate label (Italian).
+%   \item[\texttt{nodefaultfont}]
+%     Disables the default font setup (Libertine\,+\,Cantarell).
+% \end{description}
+%
+% \subsection{Preamble commands}
+%
+% \subsubsection{Common commands}
+%
+% \begin{description}[leftmargin=4cm,style=nextline]
+%   \item[\cs{title}\marg{text}]
+%     The thesis title (standard \LaTeX).
+%   \item[\cs{subtitle}\marg{text}]
+%     An optional subtitle.
+%   \item[\cs{alttitle}\marg{text}]
+%     An alternative title (e.g.\ translation).
+%   \item[\cs{author}\marg{name}]
+%     The author's name (standard \LaTeX).
+%   \item[\cs{advisor}\marg{name}]
+%     Thesis advisor.  Can be called multiple times.
+%   \item[\cs{coadvisor}\marg{name}]
+%     Co-advisor.  Can be called multiple times.
+%   \item[\cs{AcademicYear}\marg{year}]
+%     The academic year (e.g.\ |2024/2025|).  Required.
+% \end{description}
+%
+% \subsubsection{Master-specific commands}
+%
+% \begin{description}[leftmargin=4cm,style=nextline]
+%   \item[\cs{courseorganizer}\marg{text}]
+%     The faculty or school (e.g.\ |Facolt\`a di Ingegneria|).
+%   \item[\cs{course}\marg{text}]
+%     The degree programme.
+%   \item[\cs{IDnumber}\marg{id}]
+%     Student ID number (matricola).
+% \end{description}
+%
+% \subsubsection{Ph.D.-specific commands}
+%
+% \begin{description}[leftmargin=4cm,style=nextline]
+%   \item[\cs{doctorate}\marg{field}]
+%     The doctoral programme (e.g.\ |Computer Science|).
+%   \item[\cs{cycle}\marg{roman}]
+%     The cycle number in Roman numerals (e.g.\ |XXXVIII|).
+%   \item[\cs{committeemember}\marg{name}]
+%     A committee member.  Can be called multiple times.
+%   \item[\cs{reviewer}\marg{name}]
+%     An external reviewer.  Can be called multiple times.
+%   \item[\cs{authoremail}\marg{email}]
+%     Author's e-mail (shown on the address page).  Required.
+%   \item[\cs{authoraddress}\marg{text}]
+%     Author's postal address (use |\\| for line breaks).
+%   \item[\cs{website}\marg{url}]
+%     Author's website.
+% \end{description}
+%
+% \subsubsection{Label customisation}
+%
+% \begin{description}[leftmargin=4.5cm,style=nextline]
+%   \item[\cs{customadvisorlabel}\marg{text}]
+%     Overrides both singular and plural advisor labels.
+%   \item[\cs{customcoadvisorlabel}\marg{text}]
+%     Overrides both singular and plural co-advisor labels.
+%   \item[\cs{customdirectorlabel}\marg{text}]
+%     Overrides both singular and plural director labels.
+% \end{description}
+%
+% \subsection{Document structure}
+%
+% A typical document follows this structure:
+%
+% \begin{verbatim}
+%   \documentclass[master,english,lof,lot]{tvthesis}
+%   % ... preamble commands ...
+%   \begin{document}
+%   \maketitle
+%   \frontmatter
+%   \dedication{To my family}
+%   \tableofcontents
+%   \begin{abstract} ... \end{abstract}
+%   \begin{acknowledgments} ... \end{acknowledgments}
+%   \mainmatter
+%   \chapter{Introduction} ...
+%   % ... chapters ...
+%   \end{document}
+% \end{verbatim}
+%
+% \subsection{Front matter environments}
+%
+% \DescribeEnv{abstract}
+% The |abstract| environment typesets a titled abstract page.
+% An optional argument overrides the title.
+%
+% \DescribeEnv{acknowledgments}
+% The |acknowledgments| environment typesets a titled
+% acknowledgments page. An optional argument overrides the title.
+%
+% \DescribeMacro{\dedication}
+% |\dedication|\marg{text} produces a right-aligned dedication page.
+%
+% \DescribeMacro{\remove}
+% |\remove|\marg{text} swallows its argument (useful for commenting
+% out blocks of text).
+%
+% \StopEventually{%
+%   \PrintChanges
+%   \PrintIndex
+% }
+%
+% \section{Implementation}
+%
+% \subsection{Identification}
+%
+%    \begin{macrocode}
+%<*class>
+\NeedsTeXFormat{LaTeX2e}[2009/01/01]
+\ProvidesClass{tvthesis}%
+[2026/07/20 v1.0 University of Rome Tor Vergata thesis class]
+%    \end{macrocode}
+%
+% \subsection{Options}
+%
+% Class options are processed with \textsf{xkeyval} to support
+% key-value syntax (e.g.\ |binding=1cm|).  Boolean flags control
+% the thesis type, page layout, language, and visual features.
+% Any unrecognised option is forwarded to the underlying \textsf{book}
+% class.
+%
+%    \begin{macrocode}
+\RequirePackage{xkeyval}
+\newlength{\TV@binding}
+\newif\ifTV@nodefaultfont \TV@nodefaultfontfalse
+\newif\ifTV@customlanguage \TV@customlanguagefalse
+\newif\ifTV@femaleauthor \TV@femaleauthorfalse
+\newif\ifTV@master \TV@masterfalse
+\newif\ifTV@phd \TV@phdtrue
+\newif\ifTV@showcrop \TV@showcropfalse
+\newif\ifTV@showmargins \TV@showmarginsfalse
+\newif\ifTV@apaper \TV@apaperfalse
+\newif\ifTV@letterpaper \TV@letterpaperfalse
+\newif\ifTV@lof \TV@loffalse
+\newif\ifTV@lot \TV@lotfalse
+
+\newcommand{\TV@customlanguage}{}
+\define@key[tv]{}{italian}[]{\TV@customlanguagetrue
+  \renewcommand{\TV@customlanguage}{\TV@italian}}
+\define@key[tv]{}{english}[]{\TV@customlanguagetrue
+  \renewcommand{\TV@customlanguage}{\TV@english}}
+\define@key[tv]{}{fem}[]{\TV@femaleauthortrue}
+\define@key[tv]{}{nodefaultfont}[]{\TV@nodefaultfonttrue}
+\define@key[tv]{}{binding}[0pt]{\setlength{\TV@binding}{#1}}
+\define@key[tv]{}{draft}[]{\PassOptionsToClass{draft}{book}}
+\define@key[tv]{}{oneside}[]{\PassOptionsToClass{oneside}{book}}
+\define@key[tv]{}{twoside}[]{}
+\define@key[tv]{}{master}[]{\TV@mastertrue\TV@phdfalse}
+\define@key[tv]{}{phd}[]{\TV@phdtrue\TV@masterfalse}
+\define@key[tv]{}{a4paper}[]{\TV@apapertrue}
+\define@key[tv]{}{letterpaper}[]{\TV@letterpapertrue}
+\define@key[tv]{}{showcrop}[]{\TV@showcroptrue}
+\define@key[tv]{}{showmargins}[]{\TV@showmarginstrue}
+\define@key[tv]{}{lof}[]{\TV@loftrue}
+\define@key[tv]{}{lot}[]{\TV@lottrue}
+
+\DeclareOptionX*{\ClassError{tvthesis}{Option '\CurrentOption'%
+  \MessageBreak is not valid}{Remove '\CurrentOption' %
+  from class options}}
+\ProcessOptionsX[tv]<>
+%    \end{macrocode}
+%
+% \subsection{Base class}
+%
+% All remaining options are forwarded to the \textsf{book} class,
+% which provides the chapter/section hierarchy, |\frontmatter|/|\mainmatter|
+% switches, and two-sided printing support.
+%
+%    \begin{macrocode}
+\LoadClass[11pt]{book}
+%    \end{macrocode}
+%
+% \subsection{Page layout}
+%
+% \changes{v1.0}{2026/07/20}{Distinct geometries for Master's and Ph.D.}
+% The page geometry depends on the thesis type:
+% \begin{itemize}
+%   \item \textbf{Ph.D.}\quad A custom book format
+%     ($17 \times 24$\,cm) with optional embedding in A4 or
+%     letter paper via the |a4paper|/|letterpaper| options.
+%     Crop marks can be shown with |showcrop|.
+%   \item \textbf{Master's}\quad Standard A4 paper with generous
+%     margins tuned for double-sided printing.
+% \end{itemize}
+% In both cases, an optional |binding| offset shifts the text block
+% towards the outer edge to accommodate physical binding.
+%
+%    \begin{macrocode}
+\RequirePackage{geometry}
+
+\ifTV@master
+  \geometry{a4paper,
+    textwidth=396pt,
+    textheight=641pt,
+    marginparsep=12pt,
+    bindingoffset=\TV@binding,
+    vmarginratio=55:89,
+    includehead,
+    marginparwidth=72pt,
+    heightrounded}
+  \if@twoside\geometry{hmarginratio=55:89}\fi
+\else
+  \geometry{twoside,
+    left=2.5cm,
+    hmarginratio=2:1,
+    includemp,
+    marginparwidth=0pt,
+    bottom=2.5cm,
+    paperheight=24cm,
+    paperwidth=17cm,
+    layoutheight=24cm,
+    layoutwidth=17cm,
+    headheight=13.6pt}
+  \ifTV@apaper
+    \geometry{paper=a4paper,
+      layouthoffset=\dimexpr0.5\paperwidth-0.5\Gm@layoutwidth,
+      layoutvoffset=\dimexpr0.5\paperheight-0.5\Gm@layoutheight}
+  \fi
+  \ifTV@letterpaper
+    \geometry{paper=letterpaper,
+      layouthoffset=\dimexpr0.5\paperwidth-0.5\Gm@layoutwidth,
+      layoutvoffset=\dimexpr0.5\paperheight-0.5\Gm@layoutheight}
+  \fi
+\fi
+
+\ifTV@showcrop\geometry{showcrop}\fi
+\ifTV@showmargins\geometry{showframe}\fi
+%    \end{macrocode}
+%
+% \subsection{Package loading}
+%
+% The class loads a carefully curated set of packages.
+%
+% \paragraph{Fonts.}
+% The default font stack uses Linux Libertine (body), Cantarell
+% (sans-serif headings), and Libertine Math (mathematics).  Under
+% Xe\TeX\ or Lua\TeX, \textsf{fontspec} is loaded instead, and the
+% user is expected to configure fonts manually.  The |nodefaultfont|
+% option disables the entire font setup, allowing full customisation.
+% UTF-8 input encoding is always enabled for pdf\LaTeX{} to support
+% accented characters (essential for Italian).
+%
+% \paragraph{Typography.}
+% The \textsf{microtype} package enables character protrusion and
+% font expansion for improved line breaking and visual quality.
+% The \textsf{enumitem} package is loaded with |noitemsep| set
+% globally, giving all list environments compact vertical spacing.
+%
+%    \begin{macrocode}
+\RequirePackage{ifxetex}
+\RequirePackage{amsmath}
+
+\ifxetex
+  \RequirePackage{fontspec}
+\else
+  \RequirePackage[utf8]{inputenc}
+  \ifTV@nodefaultfont\relax\else
+    \RequirePackage[T1]{fontenc}
+    \RequirePackage{textcomp}
+    \RequirePackage{libertine}
+    \RequirePackage[defaultsans]{cantarell}
+    \RequirePackage{libertinust1math}
+  \fi
+\fi
+
+\RequirePackage{graphicx}
+\RequirePackage{color}
+\RequirePackage{booktabs}
+\RequirePackage{etoolbox}
+\RequirePackage{tikz}
+\RequirePackage{setspace}
+\RequirePackage{microtype}
+\RequirePackage{titlesec}
+\RequirePackage{enumitem}
+\setlist{noitemsep}
+%    \end{macrocode}
+%
+% \subsection{Figure and table captions}
+%
+% Caption formatting uses small bold labels separated by a period
+% (e.g.\ ``\textbf{Figure~3.1.}~Description'') with small body text.
+% The \textsf{floatrow} package enforces the standard convention:
+% figure captions are always placed \emph{below} the figure, and
+% table captions are always placed \emph{above} the table,
+% regardless of where the user writes |\caption| in their source.
+%
+%    \begin{macrocode}
+\RequirePackage{caption}
+\captionsetup{indention=\parindent,labelfont={small,bf},labelsep=period,%
+  textfont={small}}
+\RequirePackage{floatrow}
+\floatsetup[figure]{capposition=bottom}
+\floatsetup[table]{capposition=top}
+%    \end{macrocode}
+%
+% \subsection{Line spacing}
+%
+% A 1.5 baseline stretch is used throughout the document, which is
+% the standard requirement for most Italian university theses.  The
+% bibliography overrides this to single spacing (see below).
+%
+%    \begin{macrocode}
+\renewcommand{\baselinestretch}{1.5}
+%    \end{macrocode}
+%
+% \subsection{Official colours}
+%
+% The official university colours defined in the visual identity
+% manual (\textit{Identit\`a Visiva}).  |verdetv| is the primary
+% institutional green used for the seal and headings; |nerotv| is
+% the near-black used for body text in the seal.
+%
+%    \begin{macrocode}
+\definecolor{verdetv}{RGB}{0,125,52}
+\definecolor{nerotv}{RGB}{29,29,27}
+%    \end{macrocode}
+%
+% \subsection{Ti\textit{k}Z tower logo}
+%
+% \changes{v1.0}{2026/07/20}{Tower drawn in pure Ti\textit{k}Z}
+% The university seal (\textit{sigillo di ateneo}) is drawn entirely
+% in Ti\textit{k}Z, eliminating the need for external image files.
+% The design reproduces the official stylised tower from the
+% visual identity guidelines at
+% \texttt{web.uniroma2.it/it/percorso/identita\_visiva}.
+%
+% The |\tower| command draws the tower at its natural size;
+% it is pre-rendered into a saved box (|\TV@towerbox|) at
+% class-load time for efficiency, since the seal appears on every
+% title page.
+%
+% \begin{macro}{\tower}
+%    \begin{macrocode}
+\newcommand{\tower}{%
+\begin{tikzpicture}
+    \draw[fill=verdetv,draw=white] (-1.85,-3) rectangle (2.4,2.8);
+    \filldraw[fill=white,draw=white] (-1.85,2.8) -- (1,2.8) -- (1,0) -- (-1.85,0);
+    \filldraw[fill=white,draw=white] (1,0) arc (360:240:1.9) -- (-1.85,0);
+    \def\TV@towerScaleA{0.45}%
+    \foreach \i in {0,...,6} {
+        \draw[fill=verdetv,draw=verdetv] (-1.85,-0.55+\TV@towerScaleA*\i)
+          rectangle (-0.05,-0.3+\TV@towerScaleA*\i);
+    }
+    \def\TV@towerScaleB{0.4}%
+    \foreach \i in {0,...,4}
+        \draw[fill=verdetv,draw=verdetv] (-1.85+\TV@towerScaleB*\i,2.65)
+          rectangle (-1.65+\TV@towerScaleB*\i,2.8);
+\end{tikzpicture}
+}
+%    \end{macrocode}
+% \end{macro}
+%
+% Pre-render the tower into a saved box.
+%
+%    \begin{macrocode}
+\newsavebox\TV@towerbox
+\sbox\TV@towerbox{%
+    \begin{minipage}[b]{1.8cm}%
+        \resizebox{\linewidth}{!}{\tower}%
+    \end{minipage}%
+}
+%    \end{macrocode}
+%
+% \begin{macro}{\TV@rendertitlelogo}
+% The title page logo block follows the official \emph{sigillo di ateneo}:
+% the tower is to the left, taller than the text block, with the text
+% vertically centred on it.  ``TOR VERGATA'' is the dominant line;
+% ``UNIVERSIT\`A DEGLI STUDI DI ROMA'' is smaller and letter-spaced
+% to match its width.
+%    \begin{macrocode}
+\newcommand{\TV@rendertitlelogo}{%
+  \sbox0{\fontsize{30}{36}\selectfont\textcolor{verdetv}{TOR VERGATA}}%
+  \sbox2{%
+    \begin{tabular}[b]{@{}l@{}}
+      \usebox0 \\[1pt]
+      \resizebox{\wd0}{0.5\ht0}{%
+        \textcolor{verdetv}{UNIVERSIT\`A DEGLI STUDI DI ROMA}}
+    \end{tabular}%
+  }%
+  \dimen0=1.3\dimexpr\ht2+\dp2\relax%
+  \sbox4{\resizebox{!}{\dimen0}{\usebox\TV@towerbox}}%
+  \dimen2=\dimexpr(\ht4+\dp4-\ht2-\dp2)/2+4pt\relax%
+  \usebox4%
+  \hspace{1.5em}%
+  \raisebox{\dimen2}{\usebox2}%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+% \subsection{Headers and footers}
+%
+% \changes{v1.0}{2026/07/20}{Custom page styles with \textsf{fancyhdr}}
+% The class defines two page styles via \textsf{fancyhdr}:
+% \begin{description}
+%   \item[|TV@mainstyle|] Running headers with chapter/section
+%     marks and page numbers in the outer corners.  Activated
+%     by |\mainmatter|.
+%   \item[|plain|] Completely blank headers and footers, used
+%     for chapter-opening pages and the front matter.
+% \end{description}
+% Additionally, |\cleardoublepage| is redefined so that the blank
+% verso pages inserted for two-sided printing are truly empty
+% (no headers, footers, or page numbers).
+%
+%    \begin{macrocode}
+\def\cleardoublepage{\clearpage\if@twoside \ifodd\c@page\else
+\thispagestyle{empty}\hbox{}\newpage\fi\fi}
+
+\RequirePackage{fancyhdr}
+%    \end{macrocode}
+%
+% The main page style shows chapter/section marks in the header.
+%
+%    \begin{macrocode}
+\fancypagestyle{TV@mainstyle}{%
+\pagestyle{fancy}
+\renewcommand{\chaptermark}[1]{\markboth{%
+  \ifnum \c@chapter>0 \thechapter.\ ##1 \else ##1 \fi}{}}
+\renewcommand{\sectionmark}[1]{\markright{\thesection\ ##1}}
+\fancyhf{}
+\fancyhead[OR]{\small\bfseries\thepage}
+\fancyhead[OL]{\small\bfseries\nouppercase{\rightmark}}
+\if@twoside
+\fancyhead[ER]{\small\bfseries\nouppercase{\leftmark}}
+\fancyhead[EL]{\small\bfseries\thepage}
+\fi
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0pt}}
+%    \end{macrocode}
+%
+% The plain style (chapter opening pages) is completely empty.
+%
+%    \begin{macrocode}
+\fancypagestyle{plain}{%
+\renewcommand{\headrulewidth}{0pt}
+\fancyhf{}}
+%    \end{macrocode}
+%
+% \subsection{Numbering and chapter formatting}
+%
+% Equations, figures, and tables are numbered within chapters
+% (e.g.\ ``Equation~3.1'').  Chapter headings use a display format
+% with a ruled line below the title, set in |\Huge| bold.
+%
+%    \begin{macrocode}
+\numberwithin{equation}{chapter}
+\numberwithin{figure}{chapter}
+\numberwithin{table}{chapter}
+
+\titleformat{\chapter}[display]
+{\bfseries\Large\filleft}
+{\filleft\scshape{\chaptertitlename} \thechapter}
+{6pt}
+{\Huge\bfseries}
+[\vspace{25pt}\titlerule]
+%    \end{macrocode}
+%
+% \subsection{User commands}
+%
+% The following commands are intended for use in the document
+% preamble.  They store metadata that is later used to typeset
+% the title pages.  Simple scalar values (title, subtitle, etc.)
+% are stored in macros via |\def|; multi-valued fields (advisors,
+% reviewers, committee members) use \TeX\ token lists so that
+% successive calls append entries separated by |\\[1mm]|.
+%
+%    \begin{macrocode}
+\def\TV@subtitle{}
+\def\TV@alttitle{}
+\newcommand{\subtitle}[1]{\def\TV@subtitle{#1}}
+\newcommand{\alttitle}[1]{\def\TV@alttitle{#1}}
+
+\def\TV@courseorganizerLabel{}
+\def\TV@courseLabel{}
+\newcommand{\courseorganizer}[1]{\def\TV@courseorganizerLabel{#1}}
+\newcommand{\course}[1]{\def\TV@courseLabel{#1}}
+
+\def\TV@doctorate{}
+\newcommand{\doctorate}[1]{\def\TV@doctorate{#1}}
+
+\def\TV@cycle{}
+\newcommand{\cycle}[1]{\def\TV@cycle{#1}}
+
+\def\TV@AcademicYear{}
+\newcommand{\AcademicYear}[1]{\def\TV@AcademicYear{#1}}
+\let\submitdate\AcademicYear
+
+\def\TV@IDnumber{}
+\newcommand{\IDnumber}[1]{\def\TV@IDnumber{#1}}
+%    \end{macrocode}
+%
+% Advisors, co-advisors, reviewers, committee members, and directors
+% are stored in token lists to support multiple entries.
+%
+%    \begin{macrocode}
+\newcount\TV@advisorcount
+\newtoks\TV@advisortoks
+\newcommand{\advisor}[1]{%
+  \ifnum\TV@advisorcount=\z@
+    \TV@advisortoks={#1}%
+  \else
+    \TV@advisortoks=\expandafter{\the\TV@advisortoks\\[1mm]#1}%
+  \fi
+  \advance\TV@advisorcount\@ne}
+
+\newcommand{\customadvisorlabel}[1]{%
+    \newcommand{\TV@ThesisAdvisorLabel}{#1}%
+    \newcommand{\TV@ThesisAdvisorsLabel}{#1}}
+
+\newcount\TV@coadvisorcount
+\newtoks\TV@coadvisortoks
+\newcommand{\coadvisor}[1]{%
+  \ifnum\TV@coadvisorcount=\z@
+    \TV@coadvisortoks={#1}%
+  \else
+    \TV@coadvisortoks=\expandafter{\the\TV@coadvisortoks\\[1mm]#1}%
+  \fi
+  \advance\TV@coadvisorcount\@ne}
+
+\newcommand{\customcoadvisorlabel}[1]{%
+    \newcommand{\TV@ThesisCoAdvisorLabel}{#1}%
+    \newcommand{\TV@ThesisCoAdvisorsLabel}{#1}}
+
+\newcount\TV@reviewercount
+\newtoks\TV@reviewertoks
+\newcommand{\reviewer}[1]{%
+  \ifnum\TV@reviewercount=\z@
+    \TV@reviewertoks={#1}%
+  \else
+    \TV@reviewertoks=\expandafter{\the\TV@reviewertoks\\[1mm]#1}%
+  \fi
+  \advance\TV@reviewercount\@ne}
+
+\newcount\TV@committeecount
+\newtoks\TV@committeetoks
+\newcommand{\committeemember}[1]{%
+  \ifnum\TV@committeecount=\z@
+    \TV@committeetoks={#1}%
+  \else
+    \TV@committeetoks=\expandafter{\the\TV@committeetoks\\[1mm]#1}%
+  \fi
+  \advance\TV@committeecount\@ne}
+
+\newcount\TV@directorcount
+\newtoks\TV@directortoks
+\newcommand{\director}[1]{%
+  \ifnum\TV@directorcount=\z@
+    \TV@directortoks={#1}%
+  \else
+    \TV@directortoks=\expandafter{\the\TV@directortoks\\[0.75mm]#1}%
+  \fi
+  \advance\TV@directorcount\@ne}
+
+\newcommand{\customdirectorlabel}[1]{%
+    \newcommand{\TV@ThesisDirectorLabel}{#1}%
+    \newcommand{\TV@ThesisDirectorsLabel}{#1}}
+
+\def\TV@authoremail{}
+\newcommand{\authoremail}[1]{\def\TV@authoremail{#1}}
+
+\def\TV@authoraddress{}
+\newcommand{\authoraddress}[1]{\def\TV@authoraddress{#1}}
+
+\def\TV@website{}
+\newcommand{\website}[1]{\def\TV@website{#1}}
+%    \end{macrocode}
+%
+% \subsection{Utility commands}
+%
+% \DescribeMacro{\remove}
+% The |\remove|\marg{text} command swallows its argument, providing
+% a convenient way to comment out large blocks of text without
+% resorting to the \textsf{comment} package.
+%
+%    \begin{macrocode}
+\newcommand{\remove}[1]{}
+%    \end{macrocode}
+%
+% \subsection{Dedication, abstract, acknowledgments}
+%
+% These commands and environments produce the standard front-matter
+% pages.  Each starts on a new recto page (via |\cleardoublepage|).
+%
+% \begin{description}
+%   \item[\cs{dedication}\marg{text}]
+%     Produces a right-aligned, italicised dedication in the
+%     vertical ``golden section'' of the page.
+%   \item[\texttt{abstract} environment (\oarg{title})]
+%     A titled abstract page.  The optional argument overrides
+%     the default language-dependent title.
+%   \item[\texttt{acknowledgments} environment (\oarg{title})]
+%     Same as \texttt{abstract}, for the acknowledgments.
+% \end{description}
+%
+%    \begin{macrocode}
+\providecommand*{\dedication}[1]{%
+\cleardoublepage
+\thispagestyle{empty}
+\null\vspace{\stretch{0.26}}
+\begin{flushright}
+\textit{#1}
+\end{flushright}
+\vspace{\stretch{0.74}}\null}
+
+\newenvironment{abstract}[1][\TV@AbstractLabel]
+{\cleardoublepage\thispagestyle{plain}
+\noindent{\Large\bfseries #1}\par\vspace{0.5cm}\noindent\ignorespaces}
+{\null\ignorespacesafterend}
+
+\newenvironment{acknowledgments}[1][\TV@AcknowledgmentsLabel]
+{\cleardoublepage\thispagestyle{plain}
+\noindent{\Large\bfseries #1}\par\vspace{0.5cm}\noindent\ignorespaces}
+{\null\ignorespacesafterend}
+%    \end{macrocode}
+%
+% \subsection{Front matter and main matter hooks}
+%
+% The front matter uses the plain page style; the main matter
+% activates running headers.  The |lof| and |lot| options
+% automatically append lists after |\tableofcontents|.
+%
+%    \begin{macrocode}
+\g@addto@macro\frontmatter{\pagestyle{plain}}
+\g@addto@macro\mainmatter{\pagestyle{TV@mainstyle}}
+
+\let\TV@oldtableofcontents\tableofcontents
+\renewcommand{\tableofcontents}{%
+  \TV@oldtableofcontents
+  \ifTV@lof\listoffigures\fi
+  \ifTV@lot\listoftables\fi
+}
+%    \end{macrocode}
+%
+% \subsection{Bibliography redefinition}
+%
+% The |\bibliography| command is redefined to:
+% \begin{enumerate}
+%   \item Set the bibliography in single spacing with a |small|
+%     font size, saving vertical space.
+%   \item Add a ``Bibliography'' entry to the table of contents
+%     via |\phantomsection| and |\addcontentsline|.
+%   \item Update the running headers to show ``Bibliography''
+%     in small caps.
+% \end{enumerate}
+%
+%    \begin{macrocode}
+\let\TV@oldbibliography\bibliography
+\renewcommand{\bibliography}[1]{%
+  \markboth{\textsc{Bibliography}}{\textsc{Bibliography}}
+  \begin{small}
+  \begin{spacing}{1}
+  \phantomsection
+  \addcontentsline{toc}{chapter}{Bibliography}
+  \TV@oldbibliography{#1}
+  \end{spacing}
+  \end{small}
+}
+%    \end{macrocode}
+%
+% \subsection{Hyperref configuration}
+%
+% \textsf{hyperref} is loaded with hidden links (no coloured
+% boxes) and page-level back-references in the bibliography.  The
+% |plainpages=false| and |pdfpagelabels| options work together
+% with the |\pagenumbering{Alph}| call in |\maketitle| to ensure
+% that every page has a unique label, preventing back-reference
+% links from pointing to the wrong page.
+%
+% The |\backrefalt| macro is customised to display back-references
+% as ``(cited on page~X.)'' or ``(cited on pages~X, Y.)''.
+%
+%    \begin{macrocode}
+\RequirePackage[%
+    pagebackref,
+    plainpages=false,
+    hypertexnames=true,
+    pdfpagelabels,
+    bookmarks,
+    bookmarksopen=false,
+    bookmarksnumbered=true,
+    breaklinks=true,
+    linktocpage,
+    colorlinks=false,
+    hidelinks,
+    hyperindex=true]{hyperref}
+
+\renewcommand*{\backreflastsep}{, }
+\renewcommand*{\backreftwosep}{, }
+\renewcommand*{\backref}[1]{}
+\renewcommand*{\backrefalt}[4]{%
+  \ifcase #1 %
+    \relax
+  \or
+    (cited on page~#2.)%
+  \else
+    (cited on pages #2.)%
+  \fi%
+}
+%    \end{macrocode}
+%
+% \subsection{Ph.D.\ title pages}
+%
+% \changes{v1.0}{2026/07/20}{Three-page Ph.D.\ title sequence}
+% The Ph.D.\ thesis has a three-page title sequence:
+% \begin{enumerate}
+%   \item \textbf{Cover page} --- university seal, doctoral programme,
+%     cycle, title, subtitle, candidate name, and academic year.
+%   \item \textbf{Committee page} --- thesis committee members,
+%     advisor, and external reviewers.
+%   \item \textbf{Address page} --- author's e-mail, postal address,
+%     and website.
+% \end{enumerate}
+% All three pages use the empty page style and centred (symmetric)
+% margins via |\newgeometry|.  Font sizes are explicitly set to
+% ensure consistent appearance across different base font sizes.
+%
+%    \begin{macrocode}
+\newcommand{\TV@maketitlePhD}{%
+\pagestyle{empty}%
+\newgeometry{hmarginratio=1:1}%
+\def\TV@fs@normal{\@setfontsize\TV@fs@normal\@xipt{10}}%
+\def\TV@fs@large{\@setfontsize\TV@fs@large\@xiipt{14}}%
+\def\TV@fs@Large{\@setfontsize\TV@fs@Large\@xivpt{18}}%
+\def\TV@fs@LARGE{\@setfontsize\TV@fs@LARGE\@xviipt{20}}%
+%%% Cover Page
+\vspace*{5mm}
+\begin{center}
+  \TV@rendertitlelogo
+  \vspace{10mm}
+
+  \textsc{{\TV@fs@large \TV@DottoratoHeader}\\[2mm]%
+  \TV@cycle\ \TV@cycleLabel}\\[5mm]
+
+  \vfill
+  {\TV@fs@Large \textbf{\@title}\par}
+  \if|\TV@subtitle|\relax\else
+    \vspace{0.4cm}
+    {\TV@fs@large\TV@subtitle\par}
+  \fi
+  \vfill
+
+  {\TV@fs@Large \@author}
+
+  \vfill
+  \textsc{{\TV@fs@large \TV@AcademicYear}}
+\end{center}
+\cleardoublepage
+%%% Internal Page
+\vspace*{5mm}
+\begin{center}
+  \TV@rendertitlelogo
+  \vspace{10mm}
+
+  \textsc{{\TV@fs@large \TV@DottoratoHeader\\[2mm]%
+  \TV@cycle\ \TV@cycleLabel}}\\[5mm]
+
+  \vfill
+  {\TV@fs@Large \@author \par}
+  \vfill
+
+  {\TV@fs@Large \textbf{\@title} \par}
+  \if|\TV@subtitle|\relax\else
+    \vspace{0.3cm}
+    {\TV@fs@large\TV@subtitle\par}
+  \fi
+  \vspace*{0.5cm}
+
+  \begin{tabular}[t]{c@{\hspace{10mm}}c}
+    \begin{tabular}[t]{l}
+      \multicolumn{1}{c}{\textbf{\TV@CommitteeHeader}}\\[5mm]
+      \the\TV@advisortoks\ (\TV@AdvisorHeaderLabel) \\
+      \ifnum\TV@committeecount>\z@
+        \the\TV@committeetoks \\
+      \fi
+    \end{tabular}%
+    &%
+    \ifnum\TV@reviewercount>\z@
+      \begin{tabular}[t]{l}
+        \multicolumn{1}{c}{\textbf{\TV@ReviewerHeaderLabel}}\\[5mm]
+        \the\TV@reviewertoks \\
+      \end{tabular}
+    \fi
+  \end{tabular}
+
+  \vfill
+  \textsc{{\TV@fs@large \TV@AcademicYear}}
+\end{center}
+\clearpage
+\restoregeometry
+%%% Author Address Page
+\begin{raggedright}
+\vspace*{\fill}
+{\TV@fs@normal
+  \textsc{\TV@AddressHeader} \\
+  \@author \\
+  \TV@authoraddress \\
+  \textsc{e-mail:} \texttt{\TV@authoremail}\\
+  \if|\TV@website|\relax\else\textsc{www:} \texttt{\TV@website}\fi}\par
+\vspace*{2cm}
+\end{raggedright}
+\clearpage
+}
+%    \end{macrocode}
+%
+% \subsection{Master's title page}
+%
+% The Master's thesis has a single title page showing the university
+% seal, faculty and degree programme, thesis title, author with
+% student ID, advisor(s), co-advisor(s), and academic year.
+% Symmetric margins are applied with |\newgeometry| and restored
+% afterwards.  The |titlepage| environment is \emph{not} used,
+% to avoid the page counter reset that would break hyperref
+% back-references.
+%
+%    \begin{macrocode}
+\newcommand{\TV@maketitleMaster}{%
+\clearpage
+\thispagestyle{empty}%
+\newgeometry{hmarginratio=1:1}
+
+\linespread{1}\selectfont
+\parindent=0pt
+
+\begin{center}
+\vspace*{-5mm}
+\TV@rendertitlelogo
+\end{center}
+
+\vspace{10mm}
+
+\begin{center}
+{\TV@courseorganizerLabel\\[2mm]
+\TV@courseLabel}
+\end{center}
+
+\vspace{\stretch{1}}
+
+\begin{center}
+{\LARGE\linespread{1.1}\selectfont\@title\par}
+\if|\TV@subtitle|\relax\else
+  \vspace{0.4cm}
+  {\large\linespread{1.1}\selectfont\TV@subtitle\par}
+\fi
+\if|\TV@alttitle|\relax\else
+  \vspace{0.8cm}
+  {\LARGE\linespread{1.1}\selectfont\TV@alttitle\par}
+\fi
+\end{center}
+
+\vspace{\stretch{1}}
+
+\begin{center}
+{\bfseries\large\@author}\\[2mm]
+\TV@IDnumberLabel\ \TV@IDnumber
+\end{center}
+
+\vspace{10mm}
+
+\begin{center}
+\makebox[\textwidth][c]{%
+  \parbox[t]{5.5cm}{%
+    \centering
+    \ifcase\TV@advisorcount
+      \ClassError{tvthesis}{You must specify at least one advisor in the preamble}%
+      {E.g. \protect\advisor{Prof. Name Surname}}
+    \or
+      \TV@ThesisAdvisorLabel\\[1mm]
+    \else
+      \TV@ThesisAdvisorsLabel\\[1mm]
+    \fi
+    \the\TV@advisortoks}%
+  \hspace{15mm}%
+  \parbox[t]{5.5cm}{%
+    \centering
+    \ifcase\TV@coadvisorcount
+      \relax
+    \or
+      \TV@ThesisCoAdvisorLabel\\[1mm]
+    \else
+      \TV@ThesisCoAdvisorsLabel\\[1mm]
+    \fi
+    \the\TV@coadvisortoks}%
+}
+\end{center}
+
+\vfill
+
+\begin{center}
+\TV@AcademicYearLabel\ \TV@AcademicYear
+\end{center}
+
+\restoregeometry
+\clearpage
+}
+%    \end{macrocode}
+%
+% \subsection{The \cs{maketitle} dispatch}
+%
+% \begin{macro}{\maketitle}
+% The |\maketitle| command validates that all required metadata has
+% been provided (emitting |\ClassError| messages otherwise), then
+% dispatches to the appropriate title-page builder.  Before any
+% title page is rendered, |\pagenumbering{Alph}| is called to give
+% title pages unique labels (``A'', ``B'', etc.) that do not collide
+% with the roman numerals of the front matter or the arabic numerals
+% of the main matter --- this is essential for correct hyperref
+% back-reference links.
+%
+%    \begin{macrocode}
+\renewcommand{\maketitle}{%
+\pagenumbering{Alph}%
+\if|\TV@AcademicYear|\ClassError{tvthesis}{You must specify the %
+  academic year}{Example: \protect\AcademicYear{2024/2025}}\fi
+\ifTV@master
+  \if|\TV@courseorganizerLabel|\ClassError{tvthesis}{You must specify %
+    the course organizer}{Example: %
+    \protect\courseorganizer{Facolt\`a di Ingegneria}}\fi
+  \if|\TV@courseLabel|\ClassError{tvthesis}{You must specify the %
+    course}{Example: \protect\course{Corso di Laurea Magistrale %
+    in Informatica}}\fi
+  \if|\TV@IDnumber|\ClassError{tvthesis}{You must specify your %
+    ID number (matricola)}{Example: \protect\IDnumber{0123456}}\fi
+  \TV@maketitleMaster
+\else
+  \if|\TV@doctorate|\ClassError{tvthesis}{You must specify the %
+    doctorate program}{Example: \protect\doctorate{Computer Science}}\fi
+  \if|\TV@cycle|\ClassError{tvthesis}{You must specify the %
+    cycle}{Example: \protect\cycle{XXXVIII}}\fi
+  \if|\TV@authoremail|\ClassError{tvthesis}{You must specify the %
+    author's email}{Example: \protect\authoremail{author@email.com}}\fi
+  \TV@maketitlePhD
+\fi
+}
+%    \end{macrocode}
+% \end{macro}
+%
+% \subsection{Language strings --- English}
+%
+% All user-visible labels are defined as macros so they can be
+% switched between English and Italian.  The |\providecommand|
+% form is used for advisor/co-advisor/director labels so that
+% |\customadvisorlabel| (etc.) can override them if called first.
+%
+%    \begin{macrocode}
+\newcommand{\TV@english}{%
+  \newcommand{\TV@CandidateLabel}{Candidate}
+  \newcommand{\TV@CandidateLabelFemale}{Candidate}
+  \newcommand{\TV@IDnumberLabel}{ID number}
+  \providecommand{\TV@ThesisAdvisorLabel}{Advisor}
+  \providecommand{\TV@ThesisAdvisorsLabel}{Advisors}
+  \providecommand{\TV@ThesisCoAdvisorLabel}{Co-Advisor}
+  \providecommand{\TV@ThesisCoAdvisorsLabel}{Co-Advisors}
+  \providecommand{\TV@ThesisDirectorLabel}{Director}
+  \providecommand{\TV@ThesisDirectorsLabel}{Directors}
+  \newcommand{\TV@cycleLabel}{Cycle}
+  \newcommand{\TV@AcademicYearLabel}{Academic Year}
+  \newcommand{\TV@universityname}{University of Rome Tor Vergata}
+  \newcommand{\TV@AcknowledgmentsLabel}{Acknowledgments}
+  \newcommand{\TV@AbstractLabel}{Abstract}
+  \newcommand{\TV@DottoratoHeader}{Ph.D.\ program in \TV@doctorate}
+  \newcommand{\TV@CommitteeHeader}{Thesis Committee}
+  \newcommand{\TV@AdvisorHeaderLabel}{Advisor}
+  \newcommand{\TV@ReviewerHeaderLabel}{Reviewers}
+  \newcommand{\TV@AddressHeader}{Author's address:}}
+%    \end{macrocode}
+%
+% \subsection{Language strings --- Italian}
+%
+% Italian translations of all labels.  The |fem| class option
+% selects |\TV@CandidateLabelFemale| (``Candidata'') instead of
+% |\TV@CandidateLabel| (``Candidato'').
+%
+%    \begin{macrocode}
+\newcommand{\TV@italian}{%
+  \newcommand{\TV@CandidateLabel}{Candidato}
+  \newcommand{\TV@CandidateLabelFemale}{Candidata}
+  \newcommand{\TV@IDnumberLabel}{Matricola}
+  \providecommand{\TV@ThesisAdvisorLabel}{Relatore}
+  \providecommand{\TV@ThesisAdvisorsLabel}{Relatori}
+  \providecommand{\TV@ThesisCoAdvisorLabel}{Correlatore}
+  \providecommand{\TV@ThesisCoAdvisorsLabel}{Correlatori}
+  \providecommand{\TV@ThesisDirectorLabel}{Direttore}
+  \providecommand{\TV@ThesisDirectorsLabel}{Direttori}
+  \newcommand{\TV@cycleLabel}{Ciclo}
+  \newcommand{\TV@AcademicYearLabel}{Anno Accademico}
+  \newcommand{\TV@universityname}{Universit\`a degli Studi di Roma Tor Vergata}
+  \newcommand{\TV@AcknowledgmentsLabel}{Ringraziamenti}
+  \newcommand{\TV@AbstractLabel}{Sommario}
+  \newcommand{\TV@DottoratoHeader}{Dottorato di Ricerca in \TV@doctorate}
+  \newcommand{\TV@CommitteeHeader}{Commissione di Tesi}
+  \newcommand{\TV@AdvisorHeaderLabel}{Relatore}
+  \newcommand{\TV@ReviewerHeaderLabel}{Revisori}
+  \newcommand{\TV@AddressHeader}{Indirizzo dell'autore:}}
+%    \end{macrocode}
+%
+% \subsection{Language selection at begin-document}
+%
+% Language resolution is deferred to |\AtBeginDocument| so that
+% \textsf{babel} or \textsf{polyglossia} (if loaded by the user)
+% have had time to set |\languagename|.  The resolution order is:
+% \begin{enumerate}
+%   \item Explicit class option (|english| or |italian|).
+%   \item \textsf{babel}/\textsf{polyglossia} main language name
+%     (e.g.\ if the user loads |\usepackage[italian]{babel}|).
+%   \item English as the fallback default.
+% \end{enumerate}
+%
+%    \begin{macrocode}
+\AtBeginDocument{%
+  \ifTV@customlanguage
+    \TV@customlanguage
+  \else
+    \@ifpackageloaded{babel}{\csname TV@\languagename\endcsname}{%
+      \@ifpackageloaded{polyglossia}{\csname TV@\languagename\endcsname}{%
+        \TV@english}}
+  \fi
+}
+
+\endinput
+%</class>
+%    \end{macrocode}
+%
+% \Finale

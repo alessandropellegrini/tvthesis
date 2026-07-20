@@ -1,0 +1,169 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Example Ph.D. thesis using tvthesis class
+%%
+%% The PhD thesis uses a custom book format (17x24cm).
+%% To embed it in A4 paper with crop marks, use:
+%%   \documentclass[phd,english,a4paper,showcrop]{tvthesis}
+%%
+%% Compile with: pdflatex example-phd.tex (twice)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[phd,english,lof,lot]{tvthesis}
+
+\doctorate{Computer Science}
+\cycle{XXXVIII}
+
+\title{Techniques for Defensive Programming}
+\subtitle{Design, Implementation, and Evaluation}
+\author{John Doe}
+
+\advisor{Prof.~Alice Smith}
+\committeemember{Prof.~Bob Johnson}
+\committeemember{Prof.~Carol Williams}
+
+\reviewer{Prof.~David Brown}
+\reviewer{Prof.~Emily Davis}
+
+\AcademicYear{A.Y. 2025/2026}
+
+\authoremail{john.doe@example.com}
+\authoraddress{Department of Civil Engineering and Computer Engineering\\
+  Universit\`a degli Studi di Roma Tor Vergata\\
+  Via del Politecnico 1, 00133 Roma, Italy}
+\website{https://www.example.com/jdoe}
+
+\usepackage{lipsum}
+
+\begin{document}
+
+\maketitle
+
+\frontmatter
+
+\dedication{To my family,\\who supported me throughout this journey}
+
+\tableofcontents
+
+
+\begin{abstract}
+\lipsum[1]
+\end{abstract}
+
+
+\begin{acknowledgments}
+\lipsum[2]
+\end{acknowledgments}
+
+
+
+\mainmatter
+
+
+\chapter*{Abstract}
+\label{abstract}
+\addcontentsline{toc}{chapter}{Abstract}
+\markboth{\textsc{Abstract}}{\textsc{Abstract}}
+
+\lipsum[3][3-4]
+
+\section*{Chapter Organization}
+
+In Chapter~\ref{ch:introduction}, we introduce the research problems.
+Chapter~\ref{ch:context} frames the research context.
+Chapter~\ref{ch:conclusions} draws conclusions.
+
+
+
+\chapter{Introduction}
+\label{ch:introduction}
+
+Over the past decades, the increasing availability of multi-core processors
+has fundamentally changed the landscape of high-performance
+computing~\cite{sutter2005}. 
+
+In this thesis, we explore the simulation research field to provide
+methodological and technical solutions towards the generation of efficient
+parallel simulation models from sequential ones.
+
+
+\section{Research Context}
+
+\lipsum[4]
+
+\section{Contributions}
+
+The main contributions of this thesis are:
+\begin{enumerate}
+    \item \lipsum[5][1]
+    \item \lipsum[5][2]
+    \item \lipsum[5][3]
+\end{enumerate}
+
+\lipsum[6]
+
+
+
+\chapter{Research Context and Achieved Results}
+\label{ch:context}
+
+\lipsum[7]
+
+
+\section{More Lorem Ipsum}
+
+\lipsum[8-9]
+
+\section{Consectetuer}
+
+\lipsum[10]
+
+Figure~\ref{fig:speedup} illustrates the theoretical speedup as a function
+of the number of processing units for different parallelizable fractions.
+
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=0.75\textwidth]{example-image}
+    \caption{Theoretical speedup according to Amdahl's Law for varying
+    fractions $P$.}
+    \label{fig:speedup}
+\end{figure}
+
+Table~\ref{tab:benchmarks} summarises the benchmark configurations used
+in our experimental evaluation.
+
+\begin{table}[t]
+    \centering
+    \caption{Benchmark configurations for the experimental evaluation.}
+    \label{tab:benchmarks}
+    \begin{tabular}{lrrr}
+        \toprule
+        \textbf{Benchmark} & \textbf{Cores} & \textbf{Workload} & \textbf{Think Time} \\
+        \midrule
+        A & 2   & 500  & 1.0 \\
+        B & 4   & 200  & 0.5 \\
+        C & 16 & 100 & 0.1 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\lipsum[11-12]
+
+
+
+\chapter{Conclusions}
+\label{ch:conclusions}
+
+\lipsum[13-14]
+
+
+
+\begin{thebibliography}{9}
+
+\bibitem{sutter2005}
+H.~Sutter.
+\newblock The free lunch is over: A fundamental turn toward concurrency
+  in software.
+\newblock {\em Dr.\ Dobb's Journal}, 30(3):202--210, 2005.
+
+\end{thebibliography}
+
+\end{document}
