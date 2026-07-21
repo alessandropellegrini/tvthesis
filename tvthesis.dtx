@@ -37,14 +37,15 @@
 %</driver>
 % \fi
 %
+% \changes{v1.1}{2026/07/21}{Small typographical fixes.}
 % \changes{v1.0}{2026/07/20}{Initial release.}
 %
 % \GetFileInfo{tvthesis.cls}
 %
 % \title{The \textsf{tvthesis} class\thanks{This document
-%   corresponds to \textsf{tvthesis}~v1.0, dated~2026/07/20.}}
+%   corresponds to \textsf{tvthesis}~v1.1, dated~2026/07/21.}}
 % \author{Alessandro Pellegrini\\ \texttt{a.pellegrini@ing.uniroma2.it}}
-% \date{July 20, 2026}
+% \date{July 21, 2026}
 %
 % \maketitle
 %
@@ -232,7 +233,7 @@
 %<*class>
 \NeedsTeXFormat{LaTeX2e}[2009/01/01]
 \ProvidesClass{tvthesis}%
-[2026/07/20 v1.0 University of Rome Tor Vergata thesis class]
+[2026/07/21 v1.1 University of Rome Tor Vergata thesis class]
 %    \end{macrocode}
 %
 % \subsection{Options}
@@ -259,6 +260,7 @@
 \newif\ifTV@lot \TV@lotfalse
 
 \newcommand{\TV@customlanguage}{}
+\newcommand{\TV@CandidateText}{\ifTV@femaleauthor\TV@CandidateLabelFemale\else\TV@CandidateLabel\fi}
 \define@key[tv]{}{italian}[]{\TV@customlanguagetrue
   \renewcommand{\TV@customlanguage}{\TV@italian}}
 \define@key[tv]{}{english}[]{\TV@customlanguagetrue
@@ -357,8 +359,8 @@
 %
 % \paragraph{Fonts.}
 % The default font stack uses Linux Libertine (body), Cantarell
-% (sans-serif headings), and Libertine Math (mathematics).  Under
-% Xe\TeX\ or Lua\TeX, \textsf{fontspec} is loaded instead, and the
+% (sans-serif headings), Inconsolata (teletype/monospaced), and
+% Libertine Math (mathematics).  Under Xe\TeX\ or Lua\TeX, \textsf{fontspec} is loaded instead, and the
 % user is expected to configure fonts manually.  The |nodefaultfont|
 % option disables the entire font setup, allowing full customisation.
 % UTF-8 input encoding is always enabled for pdf\LaTeX{} to support
@@ -383,6 +385,7 @@
     \RequirePackage{textcomp}
     \RequirePackage{libertine}
     \RequirePackage[defaultsans]{cantarell}
+    \RequirePackage[scaled=0.96]{inconsolata}
     \RequirePackage{libertinust1math}
   \fi
 \fi
@@ -596,8 +599,10 @@
 
 \def\TV@courseorganizerLabel{}
 \def\TV@courseLabel{}
+\def\TV@thesissubject{}
 \newcommand{\courseorganizer}[1]{\def\TV@courseorganizerLabel{#1}}
 \newcommand{\course}[1]{\def\TV@courseLabel{#1}}
+\newcommand{\thesissubject}[1]{\def\TV@thesissubject{#1}}
 
 \def\TV@doctorate{}
 \newcommand{\doctorate}[1]{\def\TV@doctorate{#1}}
@@ -770,11 +775,11 @@
 %    \begin{macrocode}
 \let\TV@oldbibliography\bibliography
 \renewcommand{\bibliography}[1]{%
-  \markboth{\textsc{Bibliography}}{\textsc{Bibliography}}
+  \markboth{\textsc{\bibname}}{\textsc{\bibname}}
   \begin{small}
   \begin{spacing}{1}
   \phantomsection
-  \addcontentsline{toc}{chapter}{Bibliography}
+  \addcontentsline{toc}{chapter}{\bibname}
   \TV@oldbibliography{#1}
   \end{spacing}
   \end{small}
@@ -946,21 +951,32 @@
 \parindent=0pt
 
 \begin{center}
-\vspace*{-5mm}
+{\bfseries\large UNIVERSIT\`A DEGLI STUDI DI ROMA TOR VERGATA}\\[2mm]
+{\large\scshape \TV@courseorganizerLabel}
+\end{center}
+
+\vspace{4mm}
+
+\begin{center}
 \TV@rendertitlelogo
 \end{center}
 
-\vspace{10mm}
+\vspace{4mm}
 
 \begin{center}
-{\TV@courseorganizerLabel\\[2mm]
-\TV@courseLabel}
+{\scshape \TV@CorsoDiStudioHeader}\\[1mm]
+{\large\MakeUppercase{\TV@courseLabel}}%
+\if|\TV@thesissubject|\relax\else
+  \\[3mm]
+  {\scshape \TV@TesiDiLaureaInHeader}\\[1mm]
+  {\large \TV@thesissubject}%
+\fi
 \end{center}
 
 \vspace{\stretch{1}}
 
 \begin{center}
-{\LARGE\linespread{1.1}\selectfont\@title\par}
+{\LARGE\bfseries\linespread{1.1}\selectfont\@title\par}
 \if|\TV@subtitle|\relax\else
   \vspace{0.4cm}
   {\large\linespread{1.1}\selectfont\TV@subtitle\par}
@@ -974,40 +990,43 @@
 \vspace{\stretch{1}}
 
 \begin{center}
-{\bfseries\large\@author}\\[2mm]
-\TV@IDnumberLabel\ \TV@IDnumber
-\end{center}
-
-\vspace{10mm}
-
-\begin{center}
 \makebox[\textwidth][c]{%
-  \parbox[t]{5.5cm}{%
-    \centering
-    \ifcase\TV@advisorcount
-      \ClassError{tvthesis}{You must specify at least one advisor in the preamble}%
-      {E.g. \protect\advisor{Prof. Name Surname}}
-    \or
-      \TV@ThesisAdvisorLabel\\[1mm]
-    \else
-      \TV@ThesisAdvisorsLabel\\[1mm]
-    \fi
-    \the\TV@advisortoks}%
-  \hspace{15mm}%
-  \parbox[t]{5.5cm}{%
-    \centering
-    \ifcase\TV@coadvisorcount
-      \relax
-    \or
-      \TV@ThesisCoAdvisorLabel\\[1mm]
-    \else
-      \TV@ThesisCoAdvisorsLabel\\[1mm]
-    \fi
-    \the\TV@coadvisortoks}%
+  \begin{tabular}{@{}l@{\hspace{4.0cm}}l@{}}
+    \begin{tabular}[t]{@{}l@{}}
+      \ifcase\TV@advisorcount
+        \ClassError{tvthesis}{You must specify at least one advisor in the preamble}%
+        {E.g. \protect\advisor{Prof. Name Surname}}
+      \or
+        \textbf{\TV@ThesisAdvisorLabel:}\\[1mm]
+      \else
+        \textbf{\TV@ThesisAdvisorsLabel:}\\[1mm]
+      \fi
+      \the\TV@advisortoks
+      \ifnum\TV@coadvisorcount>\z@
+        \\[4mm]
+        \ifnum\TV@coadvisorcount=1
+          \textbf{\TV@ThesisCoAdvisorLabel:}\\[1mm]
+        \else
+          \textbf{\TV@ThesisCoAdvisorsLabel:}\\[1mm]
+        \fi
+        \the\TV@coadvisortoks
+      \fi
+    \end{tabular}%
+    &%
+    \begin{tabular}[t]{@{}l@{}}
+      \ifTV@femaleauthor
+        \textbf{\TV@CandidateLabelFemale:}\\[1mm]
+      \else
+        \textbf{\TV@CandidateLabel:}\\[1mm]
+      \fi
+      {\large\@author}\\[1mm]
+      \TV@IDnumberLabel\ \TV@IDnumber
+    \end{tabular}%
+  \end{tabular}%
 }
 \end{center}
 
-\vfill
+\vspace{\stretch{2}}
 
 \begin{center}
 \TV@AcademicYearLabel\ \TV@AcademicYear
@@ -1064,57 +1083,72 @@
 % switched between English and Italian.  The |\providecommand|
 % form is used for advisor/co-advisor/director labels so that
 % |\customadvisorlabel| (etc.) can override them if called first.
+% |\customadvisorlabel| (etc.) can override if called first.
 %
 %    \begin{macrocode}
 \newcommand{\TV@english}{%
-  \newcommand{\TV@CandidateLabel}{Candidate}
-  \newcommand{\TV@CandidateLabelFemale}{Candidate}
-  \newcommand{\TV@IDnumberLabel}{ID number}
-  \providecommand{\TV@ThesisAdvisorLabel}{Advisor}
-  \providecommand{\TV@ThesisAdvisorsLabel}{Advisors}
-  \providecommand{\TV@ThesisCoAdvisorLabel}{Co-Advisor}
-  \providecommand{\TV@ThesisCoAdvisorsLabel}{Co-Advisors}
-  \providecommand{\TV@ThesisDirectorLabel}{Director}
-  \providecommand{\TV@ThesisDirectorsLabel}{Directors}
-  \newcommand{\TV@cycleLabel}{Cycle}
-  \newcommand{\TV@AcademicYearLabel}{Academic Year}
-  \newcommand{\TV@universityname}{University of Rome Tor Vergata}
-  \newcommand{\TV@AcknowledgmentsLabel}{Acknowledgments}
-  \newcommand{\TV@AbstractLabel}{Abstract}
-  \newcommand{\TV@DottoratoHeader}{Ph.D.\ program in \TV@doctorate}
-  \newcommand{\TV@CommitteeHeader}{Thesis Committee}
-  \newcommand{\TV@AdvisorHeaderLabel}{Advisor}
-  \newcommand{\TV@ReviewerHeaderLabel}{Reviewers}
-  \newcommand{\TV@AddressHeader}{Author's address:}}
-%    \end{macrocode}
-%
-% \subsection{Language strings --- Italian}
-%
-% Italian translations of all labels.  The |fem| class option
-% selects |\TV@CandidateLabelFemale| (``Candidata'') instead of
-% |\TV@CandidateLabel| (``Candidato'').
-%
-%    \begin{macrocode}
+  \def\TV@CandidateLabel{Candidate}%
+  \def\TV@CandidateLabelFemale{Candidate}%
+  \def\TV@IDnumberLabel{ID number:}%
+  \def\TV@CorsoDiStudioHeader{Degree Programme in}%
+  \def\TV@TesiDiLaureaInHeader{Thesis in}%
+  \providecommand{\TV@ThesisAdvisorLabel}{Advisor}%
+  \providecommand{\TV@ThesisAdvisorsLabel}{Advisors}%
+  \providecommand{\TV@ThesisCoAdvisorLabel}{Co-Advisor}%
+  \providecommand{\TV@ThesisCoAdvisorsLabel}{Co-Advisors}%
+  \providecommand{\TV@ThesisDirectorLabel}{Director}%
+  \providecommand{\TV@ThesisDirectorsLabel}{Directors}%
+  \def\TV@cycleLabel{Cycle}%
+  \def\TV@AcademicYearLabel{Academic Year}%
+  \def\TV@universityname{University of Rome Tor Vergata}%
+  \def\TV@AcknowledgmentsLabel{Acknowledgments}%
+  \def\TV@AbstractLabel{Abstract}%
+  \def\TV@DottoratoHeader{Ph.D.\ program in \TV@doctorate}%
+  \def\TV@CommitteeHeader{Thesis Committee}%
+  \def\TV@AdvisorHeaderLabel{Advisor}%
+  \def\TV@ReviewerHeaderLabel{Reviewers}%
+  \def\TV@AddressHeader{Author's address:}%
+  \def\contentsname{Contents}%
+  \def\bibname{Bibliography}%
+  \def\listfigurename{List of Figures}%
+  \def\listtablename{List of Tables}%
+  \def\chaptername{Chapter}%
+  \def\appendixname{Appendix}%
+  \def\figurename{Figure}%
+  \def\tablename{Table}%
+}
+
 \newcommand{\TV@italian}{%
-  \newcommand{\TV@CandidateLabel}{Candidato}
-  \newcommand{\TV@CandidateLabelFemale}{Candidata}
-  \newcommand{\TV@IDnumberLabel}{Matricola}
-  \providecommand{\TV@ThesisAdvisorLabel}{Relatore}
-  \providecommand{\TV@ThesisAdvisorsLabel}{Relatori}
-  \providecommand{\TV@ThesisCoAdvisorLabel}{Correlatore}
-  \providecommand{\TV@ThesisCoAdvisorsLabel}{Correlatori}
-  \providecommand{\TV@ThesisDirectorLabel}{Direttore}
-  \providecommand{\TV@ThesisDirectorsLabel}{Direttori}
-  \newcommand{\TV@cycleLabel}{Ciclo}
-  \newcommand{\TV@AcademicYearLabel}{Anno Accademico}
-  \newcommand{\TV@universityname}{Universit\`a degli Studi di Roma Tor Vergata}
-  \newcommand{\TV@AcknowledgmentsLabel}{Ringraziamenti}
-  \newcommand{\TV@AbstractLabel}{Sommario}
-  \newcommand{\TV@DottoratoHeader}{Dottorato di Ricerca in \TV@doctorate}
-  \newcommand{\TV@CommitteeHeader}{Commissione di Tesi}
-  \newcommand{\TV@AdvisorHeaderLabel}{Relatore}
-  \newcommand{\TV@ReviewerHeaderLabel}{Revisori}
-  \newcommand{\TV@AddressHeader}{Indirizzo dell'autore:}}
+  \def\TV@CandidateLabel{Laureando}%
+  \def\TV@CandidateLabelFemale{Laureanda}%
+  \def\TV@IDnumberLabel{matricola:}%
+  \def\TV@CorsoDiStudioHeader{Corso di Studio in}%
+  \def\TV@TesiDiLaureaInHeader{Tesi di Laurea in}%
+  \providecommand{\TV@ThesisAdvisorLabel}{Relatore}%
+  \providecommand{\TV@ThesisAdvisorsLabel}{Relatori}%
+  \providecommand{\TV@ThesisCoAdvisorLabel}{Correlatore}%
+  \providecommand{\TV@ThesisCoAdvisorsLabel}{Correlatori}%
+  \providecommand{\TV@ThesisDirectorLabel}{Direttore}%
+  \providecommand{\TV@ThesisDirectorsLabel}{Direttori}%
+  \def\TV@cycleLabel{Ciclo}%
+  \def\TV@AcademicYearLabel{Anno Accademico}%
+  \def\TV@universityname{Universit\`a degli Studi di Roma Tor Vergata}%
+  \def\TV@AcknowledgmentsLabel{Ringraziamenti}%
+  \def\TV@AbstractLabel{Sommario}%
+  \def\TV@DottoratoHeader{Dottorato di Ricerca in \TV@doctorate}%
+  \def\TV@CommitteeHeader{Commissione di Tesi}%
+  \def\TV@AdvisorHeaderLabel{Relatore}%
+  \def\TV@ReviewerHeaderLabel{Revisori}%
+  \def\TV@AddressHeader{Indirizzo dell'autore:}%
+  \def\contentsname{Indice}%
+  \def\bibname{Bibliografia}%
+  \def\listfigurename{Elenco delle figure}%
+  \def\listtablename{Elenco delle tabelle}%
+  \def\chaptername{Capitolo}%
+  \def\appendixname{Appendice}%
+  \def\figurename{Figura}%
+  \def\tablename{Tabella}%
+}
 %    \end{macrocode}
 %
 % \subsection{Language selection at begin-document}

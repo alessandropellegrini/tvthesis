@@ -1,12 +1,32 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Example Master's thesis using tvthesis class
 %%
-%% Compile with: pdflatex example-master.tex (twice)
+%% Compile with:
+%%   pdflatex example-master
+%%   bibtex example-master
+%%   pdflatex example-master
+%%   pdflatex example-master
+%%
+%% Class Options Summary (refer to the docs for other options):
+%%  - english (default) / italian   : Selects thesis language for labels and headings
+%%  - fem                           : (Italian only) Use feminine label ("Candidata")
+%%  - lof                           : Automatically append List of Figures after TOC
+%%  - lot                           : Automatically append List of Tables after TOC
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\documentclass[master,english,lof,lot]{tvthesis}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[master,italian,fem,lof,lot]{tvthesis}
 
-\courseorganizer{Faculty of Engineering}
-\course{Master's Degree in Computer Science}
+% One of the following are allowed:
+% Facoltà di Economia
+% Dipartimento di Giurisprudenza
+% Macroarea di Ingegneria
+% Macroarea di Lettere e Filosofia
+% Facoltà di Medicina e Chirurgia
+% Macroarea di Scienze Matematiche, Fisiche e Naturali
+\courseorganizer{Macroarea di Ingegneria}
+\course{Laurea Magistrale in Ingegneria Informatica}
+% The following is optional. Comment it out to remove from the title page.
+\thesissubject{Sistemi Distribuiti}
 
 \title{A Novel Approach to Distributed Computing}
 \subtitle{Algorithms, Protocols, and Performance Analysis}
@@ -14,7 +34,10 @@
 \IDnumber{0123456}
 
 \advisor{Prof.~Alice Smith}
+\advisor{Prof.~Joe Bloggs}
 \coadvisor{Prof.~Bob Johnson}
+\coadvisor{Prof.~John Q. Public}
+\coadvisor{Prof.~Robin Banks}
 
 \AcademicYear{2025/2026}
 
@@ -26,170 +49,136 @@
 
 \frontmatter
 
-\dedication{To my family}
+\dedication{Alla mia famiglia}
 
 \tableofcontents
 
-\begin{abstract}
-This thesis presents a novel approach to distributed computing.
-We propose new algorithms and protocols that improve performance
-and scalability compared to state-of-the-art solutions. Extensive experimental
-evaluation demonstrates the effectiveness of our approach across a variety of
-benchmark scenarios. The results show significant improvements in throughput and
-latency, while maintaining strong consistency guarantees.
-\end{abstract}
+
 
 \begin{acknowledgments}
-I would like to express my sincere gratitude to my advisor for the invaluable
-guidance and continuous support throughout this work. I am also grateful to my
-co-advisor for the insightful comments and encouragement.
+Vorrei esprimere la mia sincera gratitudine al mio relatore per la guida preziosa e il continuo supporto durante tutto questo lavoro. Sono inoltre grato al mio co-relatore per i commenti illuminanti e l’incoraggiamento.
 
-A special thanks to my family and friends, whose unwavering support made this
-journey possible.
+Un ringraziamento speciale alla mia famiglia e ai miei amici, il cui sostegno costante ha reso possibile questo percorso.
 \end{acknowledgments}
 
+
+\begin{abstract}
+Questa tesi presenta un approccio innovativo al calcolo distribuito.
+Proponiamo nuovi algoritmi e protocolli che migliorano le prestazioni
+e la scalabilità rispetto alle soluzioni all’avanguardia. Un’ampia valutazione
+sperimentale dimostra l’efficacia del nostro approccio in diversi scenari
+di riferimento. I risultati mostrano miglioramenti significativi nella
+capacità di elaborazione e nella latenza, mantenendo al contempo
+solide garanzie di coerenza.
+\end{abstract}
 
 
 \mainmatter
 
-\chapter{Introduction}
+\chapter{Introduzione}
 \label{ch:introduction}
 
-Distributed computing has become an essential paradigm in modern software
-engineering. As systems grow in complexity and scale, the need for efficient
-distributed algorithms becomes increasingly critical~\cite{tanenbaum2007}.
+L'elaborazione distribuita è diventata un paradigma essenziale nell'ingegneria del software moderna. Con l'aumento della complessità e della scala dei sistemi, la necessità di algoritmi distribuiti efficienti diventa sempre più critica~\cite{tanenbaum2007}.
 
-The main contributions of this thesis are:
+I contributi principali di questa tesi sono:
 \begin{itemize}
-    \item A new algorithm for consensus.
-    \item A protocol for efficient data replication across distributed nodes.
-    \item An extensive experimental evaluation of the proposed solutions.
+    \item Un nuovo algoritmo di consenso.
+    \item Un protocollo per la replicazione efficiente dei dati tra nodi distribuiti.
+    \item Una valutazione sperimentale estensiva delle soluzioni proposte.
 \end{itemize}
 
-The remainder of this thesis is organized as follows. Chapter~\ref{ch:background}
-provides the necessary background. Chapter~\ref{ch:proposal} presents our
-proposed approach. Chapter~\ref{ch:conclusions} draws conclusions and outlines
-future work.
+Il resto di questa tesi è organizzato come segue. Il Capitolo~\ref{ch:background} fornisce le nozioni di base necessarie. Il Capitolo~\ref{ch:proposal} presenta il nostro approccio proposto. Il Capitolo~\ref{ch:conclusions} trae le conclusioni e delinea il lavoro futuro.
 
 
-
-\chapter{Background}
+\chapter{Concetti Fondamentali}
 \label{ch:background}
 
-In this chapter, we review the fundamental concepts and related work that
-form the basis of our research.
+In questo capitolo rivediamo i concetti fondamentali ed i lavori correlati che costituiscono la base della nostra ricerca.
 
-\section{Distributed Systems}
+\section{Sistemi Distribuiti}
 
-A distributed system is a collection of independent computers that appears to
-its users as a single coherent system~\cite{tanenbaum2007}. The key challenges
-in designing such systems include:
+Un sistema distribuito è un insieme di computer indipendenti che appare ai suoi utenti come un unico sistema coerente~\cite{tanenbaum2007}. Le principali sfide nella progettazione di tali sistemi includono:
 \begin{enumerate}
-    \item Achieving consensus among distributed nodes.
-    \item Ensuring fault tolerance and availability.
-    \item Maintaining consistency across replicated data.
+    \item Raggiungere il consenso tra nodi distribuiti.
+    \item Garantire tolleranza ai guasti e disponibilità.
+    \item Mantenere la coerenza tra i dati replicati.
 \end{enumerate}
 
-\section{Consensus Algorithms}
+\section{Algoritmi di Consenso}
 
-Consensus algorithms are fundamental building blocks for distributed
-systems. The most well-known algorithms include Paxos~\cite{lamport1998}
-and Raft~\cite{ongaro2014}.
+Gli algoritmi di consenso sono componenti fondamentali per i sistemi distribuiti. Gli algoritmi più noti includono Paxos~\cite{lamport1998} e Raft~\cite{ongaro2014}.
 
 \lipsum[1-2]
 
 
-
-\chapter{Proposed Approach}
+\chapter{Approccio Proposto}
 \label{ch:proposal}
 
-In this chapter, we present our proposed approach to distributed computing
-in heterogeneous environments.
+In questo capitolo presentiamo il nostro approccio proposto al calcolo distribuito
+in ambienti eterogenei.
 
-\section{System Model}
+\section{Modello di Sistema}
 
-We consider a distributed system composed of $n$ nodes interconnected by
-a network. Each node $i$ maintains a local state $s_i$ and communicates
-with other nodes through message passing. The system satisfies the
-following properties:
+Consideriamo un sistema distribuito composto da $n$ nodi interconnessi da
+una rete. Ogni nodo $i$ mantiene uno stato locale $s_i$ e comunica
+con gli altri nodi tramite passaggio di messaggi. Il sistema soddisfa le
+seguenti proprietà:
 %
 \begin{equation}
 \label{eq:consistency}
-\forall i, j \in \{1, \ldots, n\}: s_i = s_j \text{ at quiescence}
+\forall i, j \in \{1, \ldots, n\}: si = sj \text{ in quiete}
 \end{equation}
 
-The high-level architecture of our system is shown in
-Figure~\ref{fig:architecture}.
+L’architettura ad alto livello del nostro sistema è mostrata in
+Figura~\ref{fig:architecture}.
 
 \begin{figure}[t]
     \centering
-    \caption{High-level architecture of the proposed distributed system.}
+    \caption{Architettura ad alto livello del sistema distribuito proposto.}
     \label{fig:architecture}
     \includegraphics[width=0.7\textwidth]{example-image}
 \end{figure}
 
-Table~\ref{tab:comparison} summarises the key properties of existing
-consensus algorithms compared to our approach.
+La Tabella~\ref{tab:comparison} riassume le principali proprietà degli algoritmi
+di consenso esistenti confrontate con il nostro approccio.
 
 \begin{table}[t]
     \centering
     \begin{tabular}{lccc}
         \toprule
-        \textbf{Algorithm} & \textbf{Fault Tolerance} & \textbf{Latency} & \textbf{Throughput} \\
+        \textbf{Algoritmo} & \textbf{Tolleranza ai guasti} & \textbf{Latenza} & \textbf{Throughput} \\
         \midrule
-        Paxos      & $f < n/2$ & High   & Medium \\
-        Raft       & $f < n/2$ & Medium & Medium \\
-        Our Method & $f < n/2$ & Low    & High   \\
+        Paxos      & $f < n/2$ & Alta   & Media \\
+        Raft       & $f < n/2$ & Media  & Media \\
+        Nostro Metodo & $f < n/2$ & Bassa & Alta  \\
         \bottomrule
     \end{tabular}
-    \caption{Comparison of consensus algorithms.}
+    \caption{Confronto tra algoritmi di consenso.}
     \label{tab:comparison}
 \end{table}
 
-\section{Algorithm Design}
+\section{Progettazione dell’Algoritmo}
 
-Our algorithm proceeds in rounds. In each round $r$, every node $i$:
+Il nostro algoritmo procede a turni. In ogni turno $r$, ogni nodo $i$:
 \begin{enumerate}
-    \item Broadcasts its current state $s_i^{(r)}$ to all other nodes.
-    \item Collects the states from a majority of nodes.
-    \item Updates its state according to the deterministic merge function.
+    \item Trasmette in broadcast il proprio stato corrente $s_i^{(r)}$ a tutti gli altri nodi.
+    \item Raccoglie gli stati da una maggioranza di nodi.
+    \item Aggiorna il proprio stato in base alla funzione di fusione deterministica.
 \end{enumerate}
 
 \lipsum[3]
 
-
-
-\chapter{Conclusions}
+\chapter{Conclusioni}
 \label{ch:conclusions}
 
-In this thesis, we have presented a novel approach to distributed computing.
-Our experimental results demonstrate significant improvements over existing
-solutions, both in terms of throughput and latency.
+In questa tesi, abbiamo presentato un approccio innovativo al calcolo distribuito.
+I nostri risultati sperimentali dimostrano miglioramenti significativi rispetto alle soluzioni esistenti, sia in termini di throughput che di latenza.
 
-Future work will focus on extending our approach to support geo-distributed
-deployments and investigating the application of machine learning techniques
-for adaptive protocol selection.
+Il lavoro futuro si concentrerà sull’estensione del nostro approccio per supportare implementazioni geo-distribuite e sull’indagine dell’applicazione di tecniche di apprendimento automatico per la selezione adattiva dei protocolli.
 
 
 
-\begin{thebibliography}{9}
-
-\bibitem{tanenbaum2007}
-A.~S.~Tanenbaum and M.~van Steen.
-\newblock {\em Distributed Systems: Principles and Paradigms}.
-\newblock Pearson Prentice Hall, 2nd edition, 2007.
-
-\bibitem{lamport1998}
-L.~Lamport.
-\newblock The part-time parliament.
-\newblock {\em ACM Transactions on Computer Systems}, 16(2):133--169, 1998.
-
-\bibitem{ongaro2014}
-D.~Ongaro and J.~Ousterhout.
-\newblock In search of an understandable consensus algorithm.
-\newblock In {\em Proceedings of the USENIX Annual Technical Conference},
-pages 305--320, 2014.
-
-\end{thebibliography}
+\bibliographystyle{plain}
+\bibliography{references}
 
 \end{document}

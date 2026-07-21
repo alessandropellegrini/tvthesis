@@ -26,6 +26,8 @@
 # Bibliography files
 *.bbl
 *.blg
+*.bcf
+*.run.xml
 
 # Compiled documents
 *.pdf

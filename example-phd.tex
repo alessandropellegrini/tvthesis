@@ -5,11 +5,22 @@
 %% To embed it in A4 paper with crop marks, use:
 %%   \documentclass[phd,english,a4paper,showcrop]{tvthesis}
 %%
-%% Compile with: pdflatex example-phd.tex (twice)
+%% Compile with:
+%%   pdflatex example-phd
+%%   bibtex example-phd
+%%   pdflatex example-phd
+%%   pdflatex example-phd
+%%
+%% Class Options Summary:
+%%
+%%  - english (default) / italian   : Selects thesis language for labels and headings
+%%  - lof                           : Automatically append List of Figures after TOC
+%%  - lot                           : Automatically append List of Tables after TOC
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \documentclass[phd,english,lof,lot]{tvthesis}
 
-\doctorate{Computer Science}
+\doctorate{Computer Science, Control and Geoinformation}
 \cycle{XXXVIII}
 
 \title{Techniques for Defensive Programming}
@@ -156,14 +167,7 @@ in our experimental evaluation.
 
 
 
-\begin{thebibliography}{9}
-
-\bibitem{sutter2005}
-H.~Sutter.
-\newblock The free lunch is over: A fundamental turn toward concurrency
-  in software.
-\newblock {\em Dr.\ Dobb's Journal}, 30(3):202--210, 2005.
-
-\end{thebibliography}
+\bibliographystyle{plain}
+\bibliography{references}
 
 \end{document}
